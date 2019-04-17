@@ -16,7 +16,7 @@ export default class Header extends Component {
                             <SearchBar />
                             <div className="input-group-append" style={{ marginLeft: 'auto' }}>
                                 <span className="input-group-text">
-                                    <i class="fas fa-search"></i>
+                                    <i className="fas fa-search"></i>
                                 </span>
                             </div>
                         </div>
