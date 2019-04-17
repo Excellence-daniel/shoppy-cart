@@ -12,7 +12,14 @@ export default class Header extends Component {
 
                     </div>
                     <div className="col-5">
-                        <SearchBar />
+                        <div className="input-group">
+                            <SearchBar />
+                            <div className="input-group-append" style={{ marginLeft: 'auto' }}>
+                                <span className="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div className="col-4">
                     </div>
