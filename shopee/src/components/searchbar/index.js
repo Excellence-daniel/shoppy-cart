@@ -50,12 +50,10 @@ const suggestions = [
 const mainstyles = {
     searchBox: {
         padding: '.175rem .75rem',
-        border: '1px solid #ced4da',
+        borderBottom: '1px solid #ced4da',
         borderRadius: '5px',
+        borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
-        borderTopRightRadius: '0px',
-        borderRight: 'none',
-        width: '327%'
     },
     queryText: {
         fontWeight: 400,
@@ -91,8 +89,8 @@ export default class SearchBar extends Component {
                     },
                 }}
                 {...other}
-            // className="search-input"
-            // style={mainstyles.searchBox}
+                className="search-input"
+                style={mainstyles.searchBox}
             />
         );
     }
