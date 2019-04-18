@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 
+import './searchbar.css';
+
 const suggestions = [
     { label: 'Afghanistan' },
     { label: 'Aland Islands' },
@@ -78,6 +80,7 @@ export default class SearchBar extends Component {
 
     renderInputComponent = (inputProps) => {
         const { classes, inputRef = () => { }, ref, ...other } = inputProps;
+        console.log('inputProps', inputProps)
         return (
             <TextField
                 fullWidth
@@ -88,8 +91,8 @@ export default class SearchBar extends Component {
                     },
                 }}
                 {...other}
-                className="search-input"
-                style={mainstyles.searchBox}
+            // className="search-input"
+            // style={mainstyles.searchBox}
             />
         );
     }
