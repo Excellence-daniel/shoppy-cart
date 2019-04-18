@@ -5,6 +5,9 @@ import Header from './components/header'
 import MenCollection from './pages/men-collection';
 import LandingPage from './pages/landing-page';
 
+
+import Operations from './pages/admin/operations';
+
 export default function Routerr() {
     return (
         <Router>
@@ -12,6 +15,7 @@ export default function Routerr() {
                 <Header />
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path='/men-collection' component={MenCollection} />
+                <Route exact path='/admin/operations' component={Operations} />
                 {/* <Route exact path='/signup' component={SignUp} />
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/account' component={Account} />
