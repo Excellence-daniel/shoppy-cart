@@ -13,3 +13,15 @@ li {
     display: inline;
     padding: 3%;
 }
+
+.cart {
+    cursor: pointer;
+}
+
+#prod-price {
+    margin-top: 3%;
+}
+
+#prod-image {
+    width: 70%;
+}

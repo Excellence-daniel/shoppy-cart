@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import SearchBar from '../searchbar';
 import Menu from './menu';
@@ -10,7 +11,7 @@ export default class Header extends Component {
             <header className="card card-body" id="header">
                 <div className="row">
                     <div className="col-1">
-                        <img src="img/logo.png" className="img-fluid" style={{ width: '90%', marginTop: '-10%' }} />
+                        <Link to="/"><img src="img/logo.png" className="img-fluid" style={{ width: '90%', marginTop: '-10%' }} /></Link>
                     </div>
 
                     <div className="col-7">
@@ -22,10 +23,6 @@ export default class Header extends Component {
                     </div>
                 </div>
             </header>
-            <div>
-                <img src="img/home-pic-1.jpg" className="img-fluid" />
-            </div>
-            <div style={{ marginTop: '3%' }}></div>
         </div >
     }
 }
