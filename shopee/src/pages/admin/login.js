@@ -7,7 +7,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 
-export default class Operations extends Component {
+export default class AdminLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -87,7 +87,7 @@ export default class Operations extends Component {
 
                     <div className="row">
                         <div className="col-7">
-                            <Link> Not An Admin? Create.</Link>
+                            <Link to="/admin/signup"> Not An Admin? Create.</Link>
                         </div>
 
                         <div className="col-5">
