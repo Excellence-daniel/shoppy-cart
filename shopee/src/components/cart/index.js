@@ -5,7 +5,7 @@ export default class Cart extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-3"><img src="img/products/shoes/shoe-3.png" className="img-fluid" id="prod-image" /></div>
+                    <div className="col-3"><img src="/img/products/shoes/shoe-3.png" className="img-fluid" id="prod-image" /></div>
                     <div className="col-4" id="prod-price">
                         <span>
                             <b><p>Addidas Black Shoe</p></b>

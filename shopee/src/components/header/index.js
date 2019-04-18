@@ -11,7 +11,7 @@ export default class Header extends Component {
             <header className="card card-body" id="header">
                 <div className="row">
                     <div className="col-1">
-                        <Link to="/"><img src="img/logo.png" className="img-fluid" style={{ width: '90%', marginTop: '-10%' }} /></Link>
+                        <Link to="/"><img src="/img/logo.png" className="img-fluid" style={{ width: '90%', marginTop: '-10%' }} /></Link>
                     </div>
 
                     <div className="col-7">
