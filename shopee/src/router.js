@@ -12,6 +12,7 @@ import DeleteProducts from './pages/admin/deleteProduct';
 import HeaderAdmin from './pages/admin/header';
 import AddProducts from './pages/admin/addProduct';
 import UpdateProducts from './pages/admin/updateProducts';
+import Admin from './pages/admin';
 
 
 const MemberRoutes = () => (
@@ -21,6 +22,7 @@ const MemberRoutes = () => (
         <Route path='/admin/deleteProducts' component={DeleteProducts} />
         <Route path='/admin/addProducts' component={AddProducts} />
         <Route path='/admin/updateProducts' component={UpdateProducts} />
+        <Route path="/admin" component={Admin} />
     </>
 );
 

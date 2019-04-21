@@ -87,7 +87,7 @@ export default class AdminLogin extends Component {
 
                     <div className="row">
                         <div className="col-7">
-                            <Link to="/admin/signup"> Not An Admin? Create.</Link>
+                            <Link to="/signup"> Not An Admin? Create.</Link>
                         </div>
 
                         <div className="col-5">

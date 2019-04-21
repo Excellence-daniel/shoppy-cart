@@ -13,7 +13,7 @@ export default class SignUp extends Component {
             <div className="row">
                 <div className="col-3"></div>
                 <div className="col-6">
-                    <div style={{ marginTop: '5%' }}>
+                    <div style={{ marginTop: '10%' }}>
                         <p className="fullname">
                             <TextInput label={'FullName'} icon={'fas fa-user'} function={this.handleNameInput} />
                         </p>
@@ -33,6 +33,9 @@ export default class SignUp extends Component {
                             <Button variant="contained" color="secondary" className="btn-block">
                                 Admin SignUp
                         </Button>
+                        </p>
+                        <p>
+                            <center> <Link to="/login">Already an Admin? Login</Link> </center>
                         </p>
                     </div>
                 </div>

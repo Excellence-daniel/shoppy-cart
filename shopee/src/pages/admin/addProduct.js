@@ -4,6 +4,7 @@ import SelectField from './selectField';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
 import './index.css'
 
 
@@ -65,6 +66,32 @@ export default class AddProducts extends Component {
     handleProductDescription = (e) => {
         console.log(e.target.value)
         this.setState({ productDescription: e.target.value.trim() })
+    }
+
+    addProduct = async () => {
+        const { productBrand, productName, productCategory, productPrice, productDescription, tags, image } = this.state;
+        if (productDescription !== '' &&
+            productBrand !== '' &&
+            productCategory !== '' &&
+            productName !== '' &&
+            tags.length > 0 &&
+            image !== '' &&
+            productPrice !== ''
+        ) {
+            const res = await axios.post('http://localhost:4030/addProduct',
+                {
+                    productBrand,
+                    productCategory,
+                    productDescription,
+                    productName,
+                    productPrice,
+                    tags,
+                    image
+                });
+        } else {
+            alert('Fill in all fields');
+        }
+        // console.log(res, 'res');
     }
     render() {
         return (
@@ -148,7 +175,7 @@ export default class AddProducts extends Component {
                         </p>
 
                         <p className="col-12">
-                            <Button variant="contained" className="btn-block" color="primary">
+                            <Button variant="contained" className="btn-block" onClick={this.addProduct} color="primary">
                                 Add Product
                         </Button>
                         </p>
