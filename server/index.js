@@ -36,5 +36,22 @@ app.post('/addProduct', (request, response) => {
 })
 
 app.post('/signup', (request, response) => {
+    const { email, password } = request.body;
     console.log(request.body);
+    try {
+        MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+            if (err) throw err;
+            var myDB = db.db('shop');
+            var adminDataObj = { email, password };
+            myDB.collection('admin').insertOne(adminDataObj, (err, db) => {
+                if (err) throw err;
+                console.log('User signed in successfully!')
+            })
+        })
+        response.send({ status: 200, statusmessage: 'Admin Registered successfully.' })
+    }
+    catch (e) {
+        console.log('Error', e);
+        response.send({ status: 400, statusmessage: e });
+    }
 })
