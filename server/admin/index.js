@@ -1,3 +1,4 @@
-import * as adminLogin from './adminLogin';
+import * as login from './adminLogin';
+import * as signUp from './adminSignUp'
 
-export { adminLogin } 
+export { login, signUp } 

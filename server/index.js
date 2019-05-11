@@ -36,4 +36,4 @@ app.post('/addProduct', (request, response) => {
     }
 })
 
-app.post('', admin.adminLogin)
+app.post('', admin.login);
