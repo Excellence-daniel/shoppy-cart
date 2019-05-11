@@ -10,6 +10,7 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(cors());
+const admin = require('./admin')
 
 app.listen(port, () => { console.log('Server Started!') });
 
@@ -34,3 +35,5 @@ app.post('/addProduct', (request, response) => {
         console.log('Catch Error', e);
     }
 })
+
+app.post('', admin.adminLogin)
