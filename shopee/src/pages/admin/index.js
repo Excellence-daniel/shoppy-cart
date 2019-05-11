@@ -15,7 +15,7 @@ export default class Admin extends Component {
     render() {
         const { redirect } = this.state;
         if (redirect) {
-            return <Redirect to="/login" />
+            // return <Redirect to="/login" />
         }
         return <div></div>
     }
