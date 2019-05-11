@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import './index.css'
+import { database_url } from '../../global';
 
 
 export default class AddProducts extends Component {
@@ -78,7 +79,7 @@ export default class AddProducts extends Component {
             image !== '' &&
             productPrice !== ''
         ) {
-            const res = await axios.post('http://localhost:4030/addProduct',
+            const res = await axios.post(`${database_url}/addProduct`,
                 {
                     productBrand,
                     productCategory,
