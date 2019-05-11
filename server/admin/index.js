@@ -1,4 +1,8 @@
-import * as login from './adminLogin';
-import * as signUp from './adminSignUp'
+// // import { adminLogin } from './adminLogin';
+// // import { adminSignUp } from './adminSignUp'
+// // const login = require('./adminLogin');
+// const signUp = require('./adminSignUp');
 
-export { login, signUp } 
+// // export { adminLogin, adminSignUp } 
+// export { login, signUp };
+// // module.exports = router;

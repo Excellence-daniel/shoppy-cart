@@ -103,8 +103,8 @@ export default class AddProducts extends Component {
                             <TextInput label={"Product Name"} icon={'fas fa-search'} function={this.handleProductName} />
                         </p>
 
-                        <p className="col-6" id="productCategory">
-                            <SelectField label="Product Category" categories={['Men', 'Women', 'FootWear']} value={this.state.productCategory} function={this.handleProductCategorySelect} />
+                        <p className="col-6" id="productCategory" style={{ marginTop: 0 }}>
+                            <SelectField label="Product Category" categories={['Men', 'Women', 'Unisex', 'FootWear']} value={this.state.productCategory} function={this.handleProductCategorySelect} />
                         </p>
 
                         <p className="col-6" id="productBramd">

@@ -1,3 +1,9 @@
-import * as addProduct from './addProducts';
+// // const express = require('express');
+// // const router = express.Router();
 
-export { addProduct };
+// const addProducts = require('./addProducts');
+
+// // module.exports = router;
+
+// // export default addProducts;
+// export { addProducts };
