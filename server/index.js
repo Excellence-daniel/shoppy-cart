@@ -36,5 +36,5 @@ app.post('/addProduct', (request, response) => {
 })
 
 app.post('/signup', (request, response) => {
-
+    console.log(request.body);
 })
