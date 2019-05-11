@@ -32,10 +32,9 @@ export default class AdminLogin extends Component {
     };
 
     loginFunc = async () => {
-
+        alert('Hey, I\'m to login in')
     }
     render() {
-        // const { classes } = this.props
         return (
             <div className="row">
                 <div className="col-4"></div>
@@ -80,7 +79,7 @@ export default class AdminLogin extends Component {
                     </p>
 
                     <p>
-                        <Button variant="contained" color="primary" className="btn-block">
+                        <Button variant="contained" color="primary" className="btn-block" onClick={this.loginFunc}>
                             Admin Login
                         </Button>
                     </p>
