@@ -37,9 +37,11 @@ export default class AddProducts extends Component {
     }
 
     handleImage = e => {
-        const imageSplit = e.target.value.split(/[\\\/]/);
-        const imagePath = imageSplit[2];
-        this.setState({ image: imagePath });
+        // const imageSplit = e.target.value.split(/[\\\/]/);
+        // const imagePath = imageSplit[2];
+        // this.setState({ image: imagePath });
+        console.log(e.target.value);
+        this.setState({ image: e.target.value })
     }
 
     handleProductPrice = (e) => {
@@ -65,7 +67,6 @@ export default class AddProducts extends Component {
     }
 
     handleProductDescription = (e) => {
-        console.log(e.target.value)
         this.setState({ productDescription: e.target.value.trim() })
     }
 
@@ -143,7 +144,7 @@ export default class AddProducts extends Component {
                                 <button className="btn btn-outline-secondary" id="tags" value="Men" onClick={this.handleAddTag}> Men </button>
                                 <button className="btn btn-outline-secondary" id="tags" value="Sneakers" onClick={this.handleAddTag}> Sneakers </button>
                                 <button className="btn btn-outline-secondary" id="tags" value="Loafers" onClick={this.handleAddTag}> Loafers </button>
-                                <button className="btn btn-outline-secondary" id="tags" value="Brogues" onClick={this.handleAddTag}>Brogues </button>
+                                <button className="btn btn-outline-secondary " id="tags" value="Brogues" onClick={this.handleAddTag}>Brogues </button>
                                 <button className="btn btn-outline-secondary" id="tags" value="Black" onClick={this.handleAddTag}> Black </button>
                                 <button className="btn btn-outline-secondary" id="tags" value="White" onClick={this.handleAddTag}> White </button>
                                 <button className="btn btn-outline-secondary" id="tags" value="Red" onClick={this.handleAddTag}> Red </button>
@@ -156,10 +157,14 @@ export default class AddProducts extends Component {
                         </p>
 
                         <p className="col-6" id="productImage">
-                            <div class="custom-file">
+                            {/* <div class="custom-file">
                                 <label> Product Image</label>
                                 <p><input type="file" onChange={this.handleImage} name="pic" accept="image/*" /></p>
-                            </div>
+                            </div> */}
+                            <label> Product Image </label>
+                            <p>
+                                <input type="file" accept=".gif,.jpg,.jpeg,.png" onChange={this.handleImage} />
+                            </p>
                         </p>
 
                         <p className="col-12" id="productDescription">
