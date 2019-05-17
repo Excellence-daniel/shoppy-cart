@@ -7,6 +7,8 @@ const mongoURL = "mongodb://127.0.0.1:27017/";
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const multer = require('multer');
+const cloudinary = require('cloudinary');
+const cloudinaryStorage = require('multer-storage-cloudinary');
 
 const upload = multer({
   dest: 'images/'
@@ -27,6 +29,7 @@ app.listen(port, () => {
 const MongoClient = require("mongodb").MongoClient;
 
 app.post("/addProduct", upload.single('image'), async (request, response) => {
+  console.log(process.env.cloudinaryAPIKEY, 'env')
   console.log(request.body);
   const imagePath = __dirname + '/images';
   console.log(imagePath);
