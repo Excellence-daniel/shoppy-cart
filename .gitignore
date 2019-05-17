@@ -1,0 +1,6 @@
+.DS_Store
+
+.env
+
+shopee/src/config/
+node_modules

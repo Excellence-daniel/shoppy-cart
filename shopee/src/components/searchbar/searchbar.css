@@ -1,0 +1,50 @@
+a:hover {
+    text-decoration: none;
+}
+
+a {
+    color: black;
+}
+
+.search-input {
+    /* background: #f9f9f9; */
+    height: 38px;
+}
+
+.search-input:hover::before {
+    border-bottom: none;
+}
+
+.search-input ::after {
+    border: none !important;
+}
+
+.search-input ::before {
+    border: none !important;
+}
+
+.MuiPaper-root-35 li div div {
+    color: #525f7f
+}
+
+.MuiPaper-root-35 li:hover {
+    background: #ff0000d9;
+    -webkit-text-fill-color: white;
+}
+
+.MuiPaper-root-35 li:active {
+    background: #ff0000d9 !important;
+    -webkit-text-fill-color: white;
+}
+
+.MuiPaper-root-35 li:focus-visible {
+    background: green
+}
+
+.MuiPaper-root-35 li:hover .productOptions {
+    -webkit-text-fill-color: #f5707a;
+}
+
+#backdrop-search-icon {
+    margin-right: 10px;
+}
