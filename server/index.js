@@ -29,7 +29,7 @@ app.listen(port, () => {
 const MongoClient = require("mongodb").MongoClient;
 
 app.post("/addProduct", upload.single('image'), async (request, response) => {
-  console.log(process.env.cloudinaryAPIKEY, 'env')
+  // console.log(process.env.cloudinaryAPIKEY, 'env')
   console.log(request.body);
   const imagePath = __dirname + '/images';
   console.log(imagePath);
