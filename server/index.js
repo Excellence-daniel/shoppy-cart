@@ -9,10 +9,11 @@ const fs = require("fs");
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
+const config = require('../shopee/src/config');
 
-const upload = multer({
-  dest: 'images/'
-})
+// const upload = multer({
+//   dest: 'images/'
+// })
 
 app.use(
   express.urlencoded({
@@ -22,15 +23,29 @@ app.use(
 app.use(express.json());
 app.use(cors());
 
+cloudinary.config({
+  cloud_name: config.cloudinaryCLOUDNAME,
+  api_key: config.cloudinaryAPIKEY,
+  api_secret: config.cloudinaryAPISECRET
+});
+
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: 'images',
+  allowedFormats: ["jpg", "png"]
+});
+
+const parser = multer({ storage: storage });
+
 app.listen(port, () => {
   console.log("Server Started!");
 });
 
 const MongoClient = require("mongodb").MongoClient;
 
-app.post("/addProduct", upload.single('image'), async (request, response) => {
-  console.log(process.env.cloudinaryAPIKEY, 'env')
+app.post("/addProduct", parser.single('image'), async (request, response) => {
   console.log(request.body);
+  console.log(request.image);
   const imagePath = __dirname + '/images';
   console.log(imagePath);
   console.log(request.file);
