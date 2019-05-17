@@ -6,7 +6,11 @@ const mongodb = require("mongodb");
 const mongoURL = "mongodb://127.0.0.1:27017/";
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const upload = require('multer');
+const multer = require('multer');
+
+const upload = multer({
+  dest: 'images/'
+})
 
 app.use(
   express.urlencoded({
@@ -22,22 +26,27 @@ app.listen(port, () => {
 
 const MongoClient = require("mongodb").MongoClient;
 
-app.post("/addProduct", (request, response) => {
+app.post("/addProduct", upload.single('image'), async (request, response) => {
   console.log(request.body);
+  const imagePath = __dirname + '/images';
+  console.log(imagePath);
+  console.log(request.file);
+  console.log(request.files);
+  // console.log(__dirname);
   try {
     const dataObj = request.body;
     const imageData = request.body.image;
     MongoClient.connect(mongoURL, { useNewUrlParser: true }, function (err, db) {
       if (err) throw err;
       var myDB = db.db("shop");
-      fs.writeFile(
-        `../shopee/public/img/uploads/`,
-        imageData,
-        "binary",
-        err => {
-          console.log("File was saved");
-        }
-      );
+      // fs.writeFile(
+      //   `../shopee/public/img/uploads/`,
+      //   imageData,
+      //   "binary",
+      //   err => {
+      //     console.log("File was saved");
+      //   }
+      // );
 
       //   myDB.collection("products").insertOne(dataObj, (err, db) => {
       //     if (err) throw err;
@@ -72,3 +81,6 @@ app.post("/signup", (request, response) => {
     response.send({ status: 400, statusmessage: e });
   }
 });
+
+
+module.exports = app;

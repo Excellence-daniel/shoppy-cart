@@ -163,7 +163,7 @@ export default class AddProducts extends Component {
                             </div> */}
                             <label> Product Image </label>
                             <p>
-                                <input type="file" accept=".gif,.jpg,.jpeg,.png" onChange={this.handleImage} />
+                                <input type="file" onChange={this.handleImage} name='image' />
                             </p>
                         </p>
 
