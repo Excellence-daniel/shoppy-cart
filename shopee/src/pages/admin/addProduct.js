@@ -5,8 +5,8 @@ import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
-import './index.css'
-import { server_database_url } from '../../global';
+import './index.css';
+import { server_database_url } from '../../config';
 
 
 export default class AddProducts extends Component {

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import TextInput from './textField';
-import { server_database_url } from '../../../../config';
+import { server_database_url } from '../../config';
 
 export default class SignUp extends Component {
     constructor(props) {
