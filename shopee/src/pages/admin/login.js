@@ -6,25 +6,27 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
+import { server_database_url, loader, showToast } from '../../config';
+import axios from 'axios';
 
 export default class AdminLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
-            showPassword: false
+            showPassword: false,
+            logAdmin: false,
+            redirect: false
         }
     }
 
     handleEmailInput = (e) => {
-        const value = e.target.value;
-        this.setState({ email: value });
+        this.setState({ email: e.target.value.trim() });
     }
 
     handlePasswordInput = (e) => {
-        const value = e.target.value;
-        this.setState({ password: value });
+        this.setState({ password: e.target.value.trim() });
     }
 
     handleClickShowPassword = () => {
@@ -32,10 +34,35 @@ export default class AdminLogin extends Component {
     };
 
     loginFunc = async () => {
-        alert('Hey, I\'m to login in')
+        this.setState({ loginAdmin: true });
+        const { email, password } = this.state;
+        try {
+            if (email !== '' && password !== '') {
+                const url = `${server_database_url}/login`;
+                const body = { email, password };
+                const logAdmin = await axios.post(url, body);
+                console.log(logAdmin, 'result');
+                if (logAdmin.status === 200) {
+                    showToast(logAdmin.data.statusmessage);
+                    setTimeout(() => { this.setState({ loginAdmin: false, redirect: true }); }, 3000)
+                } else {
+                    showToast(logAdmin.data.statusmessage);
+                    this.setState({ loginAdmin: false });
+                }
+            } else {
+                showToast("Fill in all fields.");
+                this.setState({ loginAdmin: false });
+            }
+        }
+        catch (e) {
+            return;
+            this.setState({ loginAdmin: false });
+        }
+
     }
-    
+
     render() {
+        const { loginAdmin } = this.state;
         return (
             <div className="row">
                 <div className="col-4"></div>
@@ -80,8 +107,8 @@ export default class AdminLogin extends Component {
                     </p>
 
                     <p>
-                        <Button variant="contained" color="primary" className="btn-block" onClick={this.loginFunc}>
-                            Admin Login
+                        <Button variant="contained" color="primary" className="btn-block" onClick={this.loginFunc} disabled={loginAdmin}>
+                            {loginAdmin ? <img src={loader} width={20} /> : "Login"}
                         </Button>
                     </p>
 
@@ -98,6 +125,7 @@ export default class AdminLogin extends Component {
 
 
                 <div className="col-4"></div>
+                <div id="toast"></div>
             </div >
         )
     }
