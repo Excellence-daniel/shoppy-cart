@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import TextInput from './textField';
@@ -32,7 +32,6 @@ export default class SignUp extends Component {
     agreeFunc = () => {
         const { agreed } = this.state;
         this.setState({ agreed: !agreed });
-        showToast(agreed, 2000)
     }
 
     handleAdminSignUp = async () => {
@@ -44,11 +43,10 @@ export default class SignUp extends Component {
                 const body = { fullname, email, password };
                 const signAdminUp = await axios.post(url, body);
                 if (signAdminUp.status === 200) {
-                    alert(signAdminUp.data.statusmessage);
-                    this.setState({ signUpAdmin: false, redirect: true });
-                    // showToast("Sign Up Good", 3000);
+                    showToast(signAdminUp.data.statusmessage, 3000);
+                    setTimeout(() => { this.setState({ signUpAdmin: false, redirect: true }); }, 3000)
                 } else {
-                    alert(signAdminUp.data.statusmessage);
+                    showToast(signAdminUp.data.statusmessage, 3000);
                     this.setState({ signUpAdmin: false });
                 }
             } else {
@@ -63,7 +61,10 @@ export default class SignUp extends Component {
     }
 
     render() {
-        const { signUpAdmin } = this.state;
+        const { signUpAdmin, redirect } = this.state;
+        if (redirect) {
+            return <Redirect to="/login" />
+        }
         return (
             <div className="row">
                 <div className="col-3"></div>
