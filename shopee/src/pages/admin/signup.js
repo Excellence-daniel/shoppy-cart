@@ -43,15 +43,15 @@ export default class SignUp extends Component {
                 const body = { fullname, email, password };
                 const signAdminUp = await axios.post(url, body);
                 if (signAdminUp.status === 200) {
-                    showToast(signAdminUp.data.statusmessage, 3000);
+                    showToast(signAdminUp.data.statusmessage);
                     setTimeout(() => { this.setState({ signUpAdmin: false, redirect: true }); }, 3000)
                 } else {
-                    showToast(signAdminUp.data.statusmessage, 3000);
+                    showToast(signAdminUp.data.statusmessage);
                     this.setState({ signUpAdmin: false });
                 }
             } else {
                 this.setState({ signUpAdmin: false });
-                alert('Fill in all fields');
+                showToast("Fill in all the fields.");
             }
         }
         catch (e) {
