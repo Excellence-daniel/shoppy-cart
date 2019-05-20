@@ -49,7 +49,6 @@ const signAdminUp = (email, password) => {
       var adminDataObj = { email, password };
       myDB.collection("admin").insertOne(adminDataObj, (err, db) => {
         if (err) throw err;
-        console.log("User signed in successfully!");
       });
     })
   }
@@ -60,12 +59,7 @@ const signAdminUp = (email, password) => {
 }
 
 app.post("/addProduct", parser.single('image'), async (request, response) => {
-  console.log(request.body);
-  console.log(request.image);
   const imagePath = __dirname + '/images';
-  console.log(imagePath);
-  console.log(request.file);
-  console.log(request.files);
   try {
     const dataObj = request.body;
     const imageData = request.body.image;
@@ -78,7 +72,8 @@ app.post("/addProduct", parser.single('image'), async (request, response) => {
       });
       db.close();
     });
-  } catch (e) {
+  } 
+  catch (e) {
     console.log("Catch Error", e);
   }
 });
@@ -118,7 +113,10 @@ app.post("/signup", async (request, response) => {
       statusmessage: 'Invalid Email'
     })
   }
-
 });
+
+app.post("/login", async (request, response) => {
+
+})
 
 module.exports = app;

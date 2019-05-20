@@ -34,6 +34,7 @@ export default class AdminLogin extends Component {
     loginFunc = async () => {
         alert('Hey, I\'m to login in')
     }
+    
     render() {
         return (
             <div className="row">
