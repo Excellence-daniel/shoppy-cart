@@ -10,6 +10,7 @@ const multer = require('multer');
 const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
 const config = require('../shopee/src/config');
+const validator = require('email-validator');
 
 
 app.use(
@@ -84,33 +85,40 @@ app.post("/addProduct", parser.single('image'), async (request, response) => {
 
 app.post("/signup", async (request, response) => {
   const { email, password } = request.body;
-  try {
-    MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
-      if (err) throw err;
-      var myDB = db.db('shop');
-      var dataToFind = { email: email }
-      myDB.collection('admin').findOne(dataToFind, (err, result) => {
+  const isEmail = validator.validate(email);
+  if (isEmail) {
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
         if (err) throw err;
-        console.log(result, 'What I found');
+        var myDB = db.db('shop');
+        var dataToFind = { email: email }
+        myDB.collection('admin').findOne(dataToFind, (err, result) => {
+          if (err) throw err;
 
-        if (result === null) {
-          signAdminUp(email, password);
-          response.status(200).send({
-            statusmessage: "Admin Registered successfully."
-          });
-        } else {
-          console.log('Present');
-          response.status(202).send({ statusmessage: 'Email Already an admin' });
-        }
+          if (result === null) {
+            signAdminUp(email, password);
+            response.status(200).send({
+              statusmessage: "Admin Registered successfully."
+            });
+          } else {
+            console.log('Present');
+            response.status(202).send({ statusmessage: 'Email Already an admin' });
+          }
+        })
       })
+    }
+    catch (e) {
+      response.status(402).send({
+        statusmessage: e
+      })
+      console.log(e);
+    }
+  } else {
+    response.status(228).send({
+      statusmessage: 'Invalid Email'
     })
   }
-  catch (e) {
-    response.status(402).send({
-      statusmessage: e
-    })
-    console.log(e);
-  }
+
 });
 
 module.exports = app;
