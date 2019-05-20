@@ -132,10 +132,22 @@ app.post("/login", async (request, response) => {
   const isEmail = validator.validate(email);
   if (isEmail) {
     try {
-      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
-        if (err) throw err;
-        const dataToFind = ""
-      })
+      const doesEmailExist = await isEmailInMongo(email);
+      if (doesEmailExist === null) {
+        response.status(228).send({
+          statusmessage: "Invalid Admin Credentials."
+        })
+      } else {
+        if (password === doesEmailExist.password) {
+          response.status(200).send({
+            statusmessage: "Logged In."
+          })
+        } else {
+          response.status(228).send({
+            statusmessage: "Incorrect password."
+          })
+        }
+      }
     }
     catch (e) {
       response.status(402).send({
@@ -145,7 +157,7 @@ app.post("/login", async (request, response) => {
     }
   } else {
     response.status(228).send({
-      statusmessage: 'Invalid Email'
+      statusmessage: 'Invalid Email.'
     })
   }
 })
