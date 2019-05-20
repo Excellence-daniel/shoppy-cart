@@ -41,10 +41,9 @@ export default class AdminLogin extends Component {
                 const url = `${server_database_url}/login`;
                 const body = { email, password };
                 const logAdmin = await axios.post(url, body);
-                console.log(logAdmin, 'result');
                 if (logAdmin.status === 200) {
                     showToast(logAdmin.data.statusmessage);
-                    setTimeout(() => { this.setState({ loginAdmin: false, redirect: true }); }, 3000)
+                    setTimeout(() => { this.setState({ loginAdmin: false, redirect: true }); }, 3000);
                 } else {
                     showToast(logAdmin.data.statusmessage);
                     this.setState({ loginAdmin: false });

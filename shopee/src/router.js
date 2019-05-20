@@ -6,7 +6,6 @@ import MenCollection from './pages/men-collection';
 import LandingPage from './pages/landing-page';
 
 import AdminLogin from './pages/admin/login';
-import AdminProfile from './pages/admin/profile';
 import AdminSignUp from './pages/admin/signup';
 import DeleteProducts from './pages/admin/deleteProduct';
 import HeaderAdmin from './pages/admin/header';
@@ -18,7 +17,6 @@ import Admin from './pages/admin';
 const MemberRoutes = () => (
     <>
         <HeaderAdmin />
-        <Route path='/admin/profile' component={AdminProfile} />
         <Route path='/admin/deleteProducts' component={DeleteProducts} />
         <Route path='/admin/addProducts' component={AddProducts} />
         <Route path='/admin/updateProducts' component={UpdateProducts} />

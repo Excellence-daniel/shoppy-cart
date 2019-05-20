@@ -7,7 +7,6 @@ export default function HeaderAdmin() {
             <center>
                 <ul style={{ color: 'green' }}>
                     <Link to="/admin/addProducts"><li> Add Products</li></Link>
-                    <Link to="/admin/profile"><li>Profile</li></Link>
                     <Link to="/admin/deleteProducts"><li> Delete Product </li></Link>
                     <Link to="/admin/updateProducts"><li> Update Product </li></Link>
                 </ul>
