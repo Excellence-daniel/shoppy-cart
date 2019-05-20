@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -62,7 +62,10 @@ export default class AdminLogin extends Component {
     }
 
     render() {
-        const { loginAdmin } = this.state;
+        const { loginAdmin, redirect } = this.state;
+        if (redirect) {
+            return <Redirect to="/admin/addProducts" />
+        }
         return (
             <div className="row">
                 <div className="col-4"></div>
