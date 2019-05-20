@@ -41,6 +41,25 @@ app.listen(port, () => {
 
 const MongoClient = require("mongodb").MongoClient;
 
+const isEmailInMongo = (email) => {
+  return new Promise((resolve, reject) => {
+    const dataToFind = { "email": email };
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+        const myDB = db.db("shop");
+        myDB.collection("admin").findOne(dataToFind, (err, result) => {
+          if (err) throw err;
+          resolve(result);
+        })
+      })
+    }
+    catch (e) {
+      reject(e);
+      console.log(e);
+    }
+  })
+}
+
 const signAdminUp = (email, password) => {
   try {
     MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
@@ -72,7 +91,7 @@ app.post("/addProduct", parser.single('image'), async (request, response) => {
       });
       db.close();
     });
-  } 
+  }
   catch (e) {
     console.log("Catch Error", e);
   }
@@ -83,24 +102,17 @@ app.post("/signup", async (request, response) => {
   const isEmail = validator.validate(email);
   if (isEmail) {
     try {
-      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
-        if (err) throw err;
-        var myDB = db.db('shop');
-        var dataToFind = { email: email }
-        myDB.collection('admin').findOne(dataToFind, (err, result) => {
-          if (err) throw err;
-
-          if (result === null) {
-            signAdminUp(email, password);
-            response.status(200).send({
-              statusmessage: "Admin Registered successfully."
-            });
-          } else {
-            console.log('Present');
-            response.status(202).send({ statusmessage: 'Email Already an admin' });
-          }
-        })
-      })
+      const doesEmailExist = await isEmailInMongo(email);
+      if (doesEmailExist === null) {
+        signAdminUp(email, password);
+        response.status(200).send({
+          statusmessage: "Admin Registered successfully."
+        });
+      } else {
+        console.log('Present');
+        response.status(202).send({ statusmessage: 'Email Already an admin.' });
+      }
+      console.log(doesEmailExist, 'emailStatus')
     }
     catch (e) {
       response.status(402).send({
@@ -116,7 +128,26 @@ app.post("/signup", async (request, response) => {
 });
 
 app.post("/login", async (request, response) => {
-
+  const { email, password } = request.body;
+  const isEmail = validator.validate(email);
+  if (isEmail) {
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+        if (err) throw err;
+        const dataToFind = ""
+      })
+    }
+    catch (e) {
+      response.status(402).send({
+        statusmessage: e
+      })
+      console.log(e);
+    }
+  } else {
+    response.status(228).send({
+      statusmessage: 'Invalid Email'
+    })
+  }
 })
 
 module.exports = app;
