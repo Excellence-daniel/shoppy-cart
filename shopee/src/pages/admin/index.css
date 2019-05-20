@@ -1,7 +1,19 @@
 #tags {
-    margin: 1%;
+  margin: 1%;
 }
 
 #adminDets {
-    margin-left: 3%;
+  margin-left: 3%;
+}
+
+.user__button {
+  background: #1b7952;
+  border-radius: 50%;
+  margin-left: 2.0rem;
+  padding: 0.7rem 1rem;
+}
+
+.user__icon {
+  font-size: 1.5rem;
+  color: white;
 }

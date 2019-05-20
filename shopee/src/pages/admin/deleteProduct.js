@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TextInput from './textField';
+import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,60 +29,64 @@ export default class DeleteProducts extends Component {
         }
     }
     render() {
-        return (
-            <div className="row">
-                <div className="col-1"></div>
-                <div className="col-10">
-                    <div style={{ marginTop: '5%' }}>
-                        <p><TextInput label={"Search With Product Name"} icon={'fas fa-search'} function={this.searchProduct} /></p>
-                        <p>
-                            <Button variant="contained" color="primary">
-                                Search Product
+        if (sessionStorage.getItem('email')) {
+            return (
+                <div className="row">
+                    <div className="col-1"></div>
+                    <div className="col-10">
+                        <div style={{ marginTop: '5%' }}>
+                            <p><TextInput label={"Search With Product Name"} icon={'fas fa-search'} function={this.searchProduct} /></p>
+                            <p>
+                                <Button variant="contained" color="primary">
+                                    Search Product
                         </Button>
-                        </p>
-                        {this.state.product.length > 0 ?
-                            <div>
-                                <p className="col-12" id="productDetail">
-                                    <Paper >
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Product Name</TableCell>
-                                                    <TableCell align="right">Product Price</TableCell>
-                                                    <TableCell align="right">Product Tags</TableCell>
-                                                    <TableCell align="right">Product Brand</TableCell>
-                                                    <TableCell align="right">Product Category</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {this.state.rows.map(row => (
-                                                    <TableRow key={row.id}>
-                                                        <TableCell component="th" scope="row">
-                                                            {row.name}
-                                                        </TableCell>
-                                                        <TableCell align="right">{row.calories}</TableCell>
-                                                        <TableCell align="right">{row.fat}</TableCell>
-                                                        <TableCell align="right">{row.carbs}</TableCell>
-                                                        <TableCell align="right">{row.protein}</TableCell>
+                            </p>
+                            {this.state.product.length > 0 ?
+                                <div>
+                                    <p className="col-12" id="productDetail">
+                                        <Paper >
+                                            <Table>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>Product Name</TableCell>
+                                                        <TableCell align="right">Product Price</TableCell>
+                                                        <TableCell align="right">Product Tags</TableCell>
+                                                        <TableCell align="right">Product Brand</TableCell>
+                                                        <TableCell align="right">Product Category</TableCell>
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </Paper>
-                                </p>
-                                <p className="col-12">
-                                    <Button variant="contained" onClick={this.deleteProduct} color="secondary">
-                                        Delete Product
+                                                </TableHead>
+                                                <TableBody>
+                                                    {this.state.rows.map(row => (
+                                                        <TableRow key={row.id}>
+                                                            <TableCell component="th" scope="row">
+                                                                {row.name}
+                                                            </TableCell>
+                                                            <TableCell align="right">{row.calories}</TableCell>
+                                                            <TableCell align="right">{row.fat}</TableCell>
+                                                            <TableCell align="right">{row.carbs}</TableCell>
+                                                            <TableCell align="right">{row.protein}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </Paper>
+                                    </p>
+                                    <p className="col-12">
+                                        <Button variant="contained" onClick={this.deleteProduct} color="secondary">
+                                            Delete Product
                                     </Button>
-                                </p>
-                            </div>
-                            :
-                            []
-                        }
+                                    </p>
+                                </div>
+                                :
+                                []
+                            }
+                        </div>
                     </div>
+                    <div className="col-1"></div>
                 </div>
-                <div className="col-1"></div>
-            </div>
-        )
+            )
+        } else {
+            return <Redirect to="/login" />
+        }
     }
 }
