@@ -11,9 +11,6 @@ const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
 const config = require('../shopee/src/config');
 
-// const upload = multer({
-//   dest: 'images/'
-// })
 
 app.use(
   express.urlencoded({
@@ -43,17 +40,22 @@ app.listen(port, () => {
 
 const MongoClient = require("mongodb").MongoClient;
 
-function getAllAdmins() {
-  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
-    if (err) throw err;
-    var myDB = db.db("shop");
-    myDB.collection('admin').find({}).toArray((error, result) => {
-      if (error) throw error;
-      console.log('Admins', result);
-      return result;
-      // db.close()
+const signAdminUp = (email, password) => {
+  try {
+    MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+      if (err) throw err;
+      var myDB = db.db("shop");
+      var adminDataObj = { email, password };
+      myDB.collection("admin").insertOne(adminDataObj, (err, db) => {
+        if (err) throw err;
+        console.log("User signed in successfully!");
+      });
     })
-  })
+  }
+  catch (e) {
+    response.status(400).send({ statusmessage: e });
+    console.log(e, 'Sign Up Failed!');
+  }
 }
 
 app.post("/addProduct", parser.single('image'), async (request, response) => {
@@ -63,56 +65,52 @@ app.post("/addProduct", parser.single('image'), async (request, response) => {
   console.log(imagePath);
   console.log(request.file);
   console.log(request.files);
-  // console.log(__dirname);
   try {
     const dataObj = request.body;
     const imageData = request.body.image;
     MongoClient.connect(mongoURL, { useNewUrlParser: true }, function (err, db) {
       if (err) throw err;
       var myDB = db.db("shop");
-      // fs.writeFile(
-      //   `../shopee/public/img/uploads/`,
-      //   imageData,
-      //   "binary",
-      //   err => {
-      //     console.log("File was saved");
-      //   }
-      // );
-
-      //   myDB.collection("products").insertOne(dataObj, (err, db) => {
-      //     if (err) throw err;
-      //     console.log("Write to mongo is successful");
-      //   });
-      //   db.close();
+      myDB.collection("products").insertOne(dataObj, (err, db) => {
+        if (err) throw err;
+        console.log("Write to mongo is successful");
+      });
+      db.close();
     });
   } catch (e) {
     console.log("Catch Error", e);
   }
 });
 
-app.post("/signup", (request, response) => {
-  const admins = getAllAdmins();
-  console.log(admins, 'Admins')
+app.post("/signup", async (request, response) => {
   const { email, password } = request.body;
-  console.log(request.body);
   try {
     MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
       if (err) throw err;
-      var myDB = db.db("shop");
-      var adminDataObj = { email, password };
-      // myDB.collection("admin").insertOne(adminDataObj, (err, db) => {
-      //   if (err) throw err;
-      //   console.log("User signed in successfully!");
-      // });
-    });
-    response.status(200).send({
-      statusmessage: "Admin Registered successfully."
-    });
-  } catch (e) {
-    console.log("Error", e);
-    response.status(400).send({ statusmessage: e });
+      var myDB = db.db('shop');
+      var dataToFind = { email: email }
+      myDB.collection('admin').findOne(dataToFind, (err, result) => {
+        if (err) throw err;
+        console.log(result, 'What I found');
+
+        if (result === null) {
+          signAdminUp(email, password);
+          response.status(200).send({
+            statusmessage: "Admin Registered successfully."
+          });
+        } else {
+          console.log('Present');
+          response.status(202).send({ statusmessage: 'Email Already an admin' });
+        }
+      })
+    })
+  }
+  catch (e) {
+    response.status(402).send({
+      statusmessage: e
+    })
+    console.log(e);
   }
 });
-
 
 module.exports = app;
