@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import TextInput from './textField';
-import { server_database_url, loader } from '../../config';
-
+import { server_database_url, loader, showToast } from '../../config';
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -33,6 +32,7 @@ export default class SignUp extends Component {
     agreeFunc = () => {
         const { agreed } = this.state;
         this.setState({ agreed: !agreed });
+        showToast(agreed, 2000)
     }
 
     handleAdminSignUp = async () => {
@@ -46,6 +46,7 @@ export default class SignUp extends Component {
                 if (signAdminUp.status === 200) {
                     alert(signAdminUp.data.statusmessage);
                     this.setState({ signUpAdmin: false, redirect: true });
+                    // showToast("Sign Up Good", 3000);
                 } else {
                     alert(signAdminUp.data.statusmessage);
                     this.setState({ signUpAdmin: false });
@@ -60,6 +61,7 @@ export default class SignUp extends Component {
             return e;
         }
     }
+
     render() {
         const { signUpAdmin } = this.state;
         return (
@@ -93,7 +95,7 @@ export default class SignUp extends Component {
                     </div>
                 </div>
                 <div className="col-3"></div>
-                <div className="toast"></div>
+                <div id="toast"></div>
             </div>
         )
     }
