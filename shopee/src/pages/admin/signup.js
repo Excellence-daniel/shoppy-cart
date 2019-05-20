@@ -23,40 +23,41 @@ export default class SignUp extends Component {
     }
 
     handleEmailInput = (e) => {
-        console.log(e.target.value, 'email');
         this.setState({ email: e.target.value.trim() });
     }
 
     handlePasswordInput = (e) => {
-        console.log(e.target.value, 'password');
         this.setState({ password: e.target.value.trim() });
     }
 
     agreeFunc = () => {
         const { agreed } = this.state;
-        console.log(!agreed)
         this.setState({ agreed: !agreed });
-        // console.log(this.state.agreed)
     }
 
     handleAdminSignUp = async () => {
         this.setState({ signUpAdmin: true });
-        const { email, fullname, password, agreed } = this.state;
-        if (email !== '' && fullname !== '' && password !== '' && agreed === true) {
-            const url = `${server_database_url}/signup`;
-            const body = { fullname, email, password };
-            const signAdminUp = await axios.post(url, body);
-            console.log(signAdminUp, 'signup');
-            if (signAdminUp.status === 200) {
-                alert('Successful SignUp');
-                this.setState({ redirect: true });
+        try {
+            const { email, fullname, password, agreed } = this.state;
+            if (email !== '' && fullname !== '' && password !== '' && agreed === true) {
+                const url = `${server_database_url}/signup`;
+                const body = { fullname, email, password };
+                const signAdminUp = await axios.post(url, body);
+                if (signAdminUp.status === 200) {
+                    alert(signAdminUp.data.statusmessage);
+                    this.setState({ signUpAdmin: false, redirect: true });
+                } else {
+                    alert(signAdminUp.data.statusmessage);
+                    this.setState({ signUpAdmin: false });
+                }
             } else {
-                alert(signAdminUp.data.statusmessage);
+                this.setState({ signUpAdmin: false });
+                alert('Fill in all fields');
             }
+        }
+        catch (e) {
             this.setState({ signUpAdmin: false });
-        } else {
-            this.setState({ signUpAdmin: false });
-            alert('Fill in all fields');
+            return e;
         }
     }
     render() {
@@ -82,7 +83,7 @@ export default class SignUp extends Component {
                             <label class="form-check-label" for="exampleCheck1">I agree with all <Link>Terms and Conditions</Link></label>
                         </p>
                         <p>
-                            <Button variant="outlined" color="secondary" className="btn-block" onClick={this.handleAdminSignUp}>
+                            <Button variant="outlined" color="secondary" className="btn-block" onClick={this.handleAdminSignUp} disabled={signUpAdmin}>
                                 {signUpAdmin ? <img src={loader} width={20} /> : "Admin SignUp"}
                             </Button>
                         </p>
@@ -92,6 +93,7 @@ export default class SignUp extends Component {
                     </div>
                 </div>
                 <div className="col-3"></div>
+                <div className="toast"></div>
             </div>
         )
     }
