@@ -56,7 +56,7 @@ export default class SignUp extends Component {
         }
         catch (e) {
             this.setState({ signUpAdmin: false });
-            return e;
+            showToast(e.message);
         }
     }
 

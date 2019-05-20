@@ -35,8 +35,8 @@ export default class AdminLogin extends Component {
 
     loginFunc = async () => {
         this.setState({ loginAdmin: true });
-        const { email, password } = this.state;
         try {
+            const { email, password } = this.state;
             if (email !== '' && password !== '') {
                 const url = `${server_database_url}/login`;
                 const body = { email, password };
@@ -55,10 +55,9 @@ export default class AdminLogin extends Component {
             }
         }
         catch (e) {
-            return;
             this.setState({ loginAdmin: false });
+            showToast(e);
         }
-
     }
 
     render() {
