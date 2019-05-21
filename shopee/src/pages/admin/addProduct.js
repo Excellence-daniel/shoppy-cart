@@ -158,13 +158,11 @@ export default class AddProducts extends Component {
                             </p>
 
                             <p className="col-6" id="productImage">
-                                {/* <div class="custom-file">
-                                <label> Product Image</label>
-                                <p><input type="file" onChange={this.handleImage} name="pic" accept="image/*" /></p>
-                            </div> */}
                                 <label> Product Image </label>
                                 <p>
-                                    <input type="file" onChange={this.handleImage} name='image' />
+                                    <form enctype="multipart/form-data" action="/pickpicture" method="post">
+                                        <input type="file" onChange={this.handleImage} name='image' />
+                                    </form>
                                 </p>
                             </p>
 

@@ -11,8 +11,9 @@ const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
 const config = require('../shopee/src/config');
 const validator = require('email-validator');
-
-
+const upload = multer({ dest: 'images/' })
+const formidable = require('formidable'), http = require('http'), util = require('util');
+const MongoClient = require("mongodb").MongoClient;
 app.use(
   express.urlencoded({
     extended: true
@@ -21,25 +22,31 @@ app.use(
 app.use(express.json());
 app.use(cors());
 
-cloudinary.config({
-  cloud_name: config.cloudinaryCLOUDNAME,
-  api_key: config.cloudinaryAPIKEY,
-  api_secret: config.cloudinaryAPISECRET
-});
+// cloudinary.config({
+//   cloud_name: config.cloudinaryCLOUDNAME,
+//   api_key: config.cloudinaryAPIKEY,
+//   api_secret: config.cloudinaryAPISECRET
+// });
 
-const storage = cloudinaryStorage({
-  cloudinary: cloudinary,
-  folder: 'images',
-  allowedFormats: ["jpg", "png"]
-});
+// const storage = cloudinaryStorage({
+//   cloudinary: cloudinary,
+//   folder: 'images',
+//   allowedFormats: ["jpg", "png"]
+// });
 
-const parser = multer({ storage: storage });
+// const parser = multer({ storage: storage });
 
 app.listen(port, () => {
   console.log("Server Started!");
 });
 
-const MongoClient = require("mongodb").MongoClient;
+http.createServer((req, res) => {
+  if (req.url == '/pickpicture' && req.method.toLowerCase() == 'post') {
+    console.log('Work here')
+    var form = new formidable.IncomingForm();
+    console.log(form, 'form')
+  }
+})
 
 const isEmailInMongo = (email) => {
   return new Promise((resolve, reject) => {
@@ -77,25 +84,32 @@ const signAdminUp = (email, password) => {
   }
 }
 
-app.post("/addProduct", parser.single('image'), async (request, response) => {
-  const imagePath = __dirname + '/images';
-  try {
-    const dataObj = request.body;
-    const imageData = request.body.image;
-    MongoClient.connect(mongoURL, { useNewUrlParser: true }, function (err, db) {
-      if (err) throw err;
-      var myDB = db.db("shop");
-      myDB.collection("products").insertOne(dataObj, (err, db) => {
-        if (err) throw err;
-        console.log("Write to mongo is successful");
-      });
-      db.close();
-    });
-  }
-  catch (e) {
-    console.log("Catch Error", e);
-  }
-});
+app.post("/addProduct", upload.single('image'), async (request, response) => {
+  console.log(request.file)
+  console.log(request.files)
+})
+
+// app.post("/addProduct", parser.single('image'), async (request, response) => {
+//   const imagePath = __dirname + '/images';
+//   console.log(request.file);
+//   console.log(request.files);
+//   try {
+//     const dataObj = request.body;
+//     const imageData = request.body.image;
+//     MongoClient.connect(mongoURL, { useNewUrlParser: true }, function (err, db) {
+//       if (err) throw err;
+//       var myDB = db.db("shop");
+//       myDB.collection("products").insertOne(dataObj, (err, db) => {
+//         if (err) throw err;
+//         console.log("Write to mongo is successful");
+//       });
+//       db.close();
+//     });
+//   }
+//   catch (e) {
+//     console.log("Catch Error", e);
+//   }
+// });
 
 app.post("/signup", async (request, response) => {
   const { email, password } = request.body;
