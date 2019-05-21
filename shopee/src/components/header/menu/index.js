@@ -44,7 +44,7 @@ export default class Menu extends Component {
                                 <Cart />
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger btn-block"> Proceed to CheckOut </button>
+                                <button type="button" class="checkout__button"> Proceed to CheckOut </button>
                             </div>
                         </div>
                     </div>

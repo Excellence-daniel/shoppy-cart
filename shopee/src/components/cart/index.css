@@ -1,0 +1,32 @@
+.product__name {
+  font-weight: bold;
+  font-size: 0.7rem;
+}
+
+.product__image {
+  width: 50%;
+}
+
+.product__count {
+  text-align: center;
+  font-weight: 500;
+  margin-top: 2rem;
+}
+
+.product__price {
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.total__price {
+  float: right;
+  margin-right: 1.6rem;
+  font-weight: bold;
+}
+
+.cart__total {
+  border: 1px solid #fbf7f7;
+  padding: 0.5rem;
+}
