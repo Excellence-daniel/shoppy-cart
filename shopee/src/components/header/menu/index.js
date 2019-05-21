@@ -33,11 +33,15 @@ export default class Menu extends Component {
                 {/* <!-- Modal --> */}
                 <div class="modal fade" id="openCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <div class="modal-content" style={{ width: '110%', marginTop: '20%' }}>
+                        <div class="modal-content" style={{ width: '110%', marginTop: '6rem' }}>
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel"> Cart Items </h5>
+                                <div class="modal-title" id="exampleModalLabel">
+                                    <h5> Cart Items</h5>
+                                    <br />
+                                    <h4>5 Item(s)</h4>
+                                </div>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true" className="close__modal">close &times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
