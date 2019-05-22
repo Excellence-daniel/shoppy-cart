@@ -52,13 +52,16 @@ export default class MenCollection extends Component {
                                                     <img src={`/img/products/${product.img}`} className="img-fluid" style={{ width: '40%' }} />
                                                 </p>
                                                 <p>{product.name}</p>
-                                                <p>{() => { this.determineDiscount(product.price) }}</p>
+                                                <p>{this.determineDiscount(product.price)}</p>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </Link>
                         ))}
+                        <p>
+                            <button onClick={() => this.determineDiscount(5000)}> Click Here </button>
+                        </p>
                     </div>
                 </div>
             </div>

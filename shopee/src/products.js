@@ -1,7 +1,7 @@
 export const Products = [
     {
         'name': 'Adidas Sneakers',
-        'price': '3000.93',
+        'price': '10000.93',
         'img': 'shoe-1.png'
     },
     {
