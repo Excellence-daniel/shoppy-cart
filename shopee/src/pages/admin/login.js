@@ -56,7 +56,7 @@ export default class AdminLogin extends Component {
         }
         catch (e) {
             this.setState({ loginAdmin: false });
-            showToast(e);
+            showToast(e.message + ". Please try again.");
         }
     }
 

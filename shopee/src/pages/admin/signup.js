@@ -56,7 +56,7 @@ export default class SignUp extends Component {
         }
         catch (e) {
             this.setState({ signUpAdmin: false });
-            showToast(e.message);
+            showToast(e.message + ". Please try again.");
         }
     }
 
