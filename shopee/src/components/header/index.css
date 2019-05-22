@@ -38,10 +38,13 @@ li {
   font-size: 0.9rem !important;
 }
 
-h4 {
+.cart__items__count {
   font-size: 0.8rem;
   color: #0b3c27;
-  margin-top: 0.4rem;
+  line-height: normal;
+  position: absolute;
+  margin-top: -1.1rem;
+  padding-left: 0.5rem;
 }
 
 h5 {

@@ -38,7 +38,7 @@ export default class Menu extends Component {
                                 <div class="modal-title" id="exampleModalLabel">
                                     <h5> Cart Items</h5>
                                     <br />
-                                    <h4>5 Item(s)</h4>
+                                    <span className="cart__items__count">5 Item(s)</span>
                                 </div>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true" className="close__modal">close &times;</span>

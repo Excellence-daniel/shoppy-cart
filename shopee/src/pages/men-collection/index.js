@@ -2,7 +2,40 @@ import React, { Component } from 'react';
 import { Products } from '../../products';
 import { Link } from 'react-router-dom';
 
+const calculateDiscount = (discount, price) => {
+    console.log('Heeey');
+    const getDiscount = (discount / 100) * price;
+    const discountedPrice = price - getDiscount + 10;
+    console.log(price, 'I got here')
+    return discountedPrice;
+}
 export default class MenCollection extends Component {
+
+    determineDiscount = price => {
+        let discountPrice = 0;
+        let discount = 0;
+        console.log('price is ', price);
+        if (price >= 5000) {
+            discount = 10;
+            discountPrice = calculateDiscount(discount, price);
+            console.log(discountPrice, 'DS');
+            return discountPrice;
+        } else if (price >= 15000) {
+            discount = 12;
+            discountPrice = calculateDiscount(discount, price);
+            console.log(discountPrice, 'DS');
+            return discountPrice;
+        } else if (price >= 20000 && price <= 25000) {
+            discount = 15;
+            discountPrice = calculateDiscount(discount, price);
+            console.log(discountPrice, 'DS');
+            return discountPrice;
+        } else {
+            console.log(discountPrice, 'DS');
+            return 0;
+        }
+    }
+
     render() {
         return (
             <div className="row" style={{ marginTop: '1%' }}>
@@ -19,6 +52,7 @@ export default class MenCollection extends Component {
                                                     <img src={`/img/products/${product.img}`} className="img-fluid" style={{ width: '40%' }} />
                                                 </p>
                                                 <p>{product.name}</p>
+                                                <p>{() => { this.determineDiscount(product.price) }}</p>
                                             </center>
                                         </div>
                                     </div>
