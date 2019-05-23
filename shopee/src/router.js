@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from './components/header'
 import MenCollection from './pages/mens-page';
+import WomensCollection from './pages/womens-page';
 import LandingPage from './pages/landing-page';
 
 import AdminLogin from './pages/admin/login';
@@ -34,6 +35,7 @@ export default function Routerr() {
                 <Route path='/login' component={AdminLogin} />
                 <Route path='/signup' component={AdminSignUp} />
                 <Route path='/logAdmin' component={Admin} />
+                <Route path='/women' component={WomensCollection} />
                 {/* <Route exact path='/signup' component={SignUp} />
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/account' component={Account} />

@@ -15,13 +15,13 @@ export default class Menu extends Component {
                     </li>
 
                     <li>
-                        <Link>
+                        <Link to="/women">
                             <span> Women </span>
                         </Link>
                     </li>
 
                     <li>
-                        <Link>
+                        <Link to="/footwears">
                             <span> FootWear </span>
                         </Link>
                     </li>
