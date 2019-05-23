@@ -78,82 +78,35 @@ const signAdminUp = (email, password) => {
 }
 
 app.post("/addProduct", parser.single('file'), async (request, response) => {
+  try {
+    const { productName, productBrand, productCategory, productPrice, productDescription, tags } = request.body;
+    const { url } = request.file;
+    const dataObj = {
+      'productName': productName,
+      'productBrand': productBrand,
+      'productPrice': productPrice,
+      'productCategory': productCategory,
+      'tags': tags,
+      'productDescription': productDescription,
+      'imageURL': url
+    }
+    MongoClient.connect(mongoURL, { useNewUrlParser: true }, (error, db) => {
+      if (error) throw error;
+      const myDB = db.db("shop");
+      myDB.collection("products").insertOne(dataObj, (err, db) => {
+        if (err) throw err;
+        console.log("Product Write Successful");
+        response.status(200).send({ statusmessage: "Product Added Successfully" });
+      });
+      db.close();
+    })
+  }
+  catch (e) {
+    response.status(228).send({ statusmessage: e.message });
+  }
   console.log(request.body);
-  console.log(request.file);
-  const { tags } = request.body;
-  console.log('Tags', tags);
-  // cloudinary.uploader.upload(request.file.path, ())
-
-  // if (file.url) {
-
-  // } else {
-  //   response.status(228).send({ statusmessage: "error" })
-  // }
-  // throw "Invalid type";
-  // const file = request.file;
-  // const data = request.body;
-  // if (!typeof (file)) throw "Invalid Type";
-  // console.log(typeof (2))
-  // console.log(typeof (file))
-  // console.log(file, 'file type');
-
-  // if (typeof (file)) {
-  //   console.log(file);
-  // } else {
-  //   console.log('Error')
-  //   response.status(228).send({ statusmessage: "Invalid Image Format." });
-
-  // }
-  // if (file.url) {
-  //   console.log(file.url)
-  //   console.log(file);
-
-  //   const imageURL = file.url;
-  //   const imageName = file.originalname;
-  // } else {
-  //   // console.log(file)
-  //   // response.status(228).send({ statusmessage: "Invalid Image Format." });
-  // }
-  // try {
-
-  //   console.log(request.file);
-  //   const { originalname, url } = request.file;
-  //   console.log('Image Name: ', originalname);
-  //   console.log('Image URL: ', url);
-  // }
-  // catch (e) {
-  //   // console.log(e);
-  //   console.log("Error!");
-  // }
   console.log(request.file)
-
-  // cloudinary.uploader.upload(request.file.originalname, (error, result) => {
-  //   if (error) { console.log(error); throw error };
-  //   console.log(result)
-  // })
 })
-
-// app.post("/addProduct", parser.single('image'), async (request, response) => {
-//   const imagePath = __dirname + '/images';
-//   console.log(request.file);
-//   console.log(request.files);
-//   try {
-//     const dataObj = request.body;
-//     const imageData = request.body.image;
-//     MongoClient.connect(mongoURL, { useNewUrlParser: true }, function (err, db) {
-//       if (err) throw err;
-//       var myDB = db.db("shop");
-//       myDB.collection("products").insertOne(dataObj, (err, db) => {
-//         if (err) throw err;
-//         console.log("Write to mongo is successful");
-//       });
-//       db.close();
-//     });
-//   }
-//   catch (e) {
-//     console.log("Catch Error", e);
-//   }
-// });
 
 app.post("/signup", async (request, response) => {
   const { email, password } = request.body;

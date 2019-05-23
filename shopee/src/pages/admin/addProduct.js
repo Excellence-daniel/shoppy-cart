@@ -199,7 +199,7 @@ export default class AddProducts extends Component {
                             </p>
 
                             <p className="col-12">
-                                <button type="submit" onClick={this.addProduct} className="btn btn-block btn-primary" id="addProduct__button"> {addProductQueryStatus ? <img src={loader} width={20} /> : "Add Product"}</button>
+                                <button type="submit" onClick={this.addProduct} className="btn btn-block btn-primary" id="addProduct__button"> {addProductQueryStatus ? <img src={`../` + loader} width={20} /> : "Add Product"}</button>
                             </p>
 
                         </div>
