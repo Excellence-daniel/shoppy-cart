@@ -93,7 +93,7 @@ export default class AddProducts extends Component {
                 console.log(addProductQuery, 'result');
                 if (addProductQuery.status === 200) {
                     showToast(addProductQuery.data.statusmessage);
-                    this.setState({ addProductQueryStatus: false });
+                    this.setState({ addProductQueryStatus: false, productBrand: '', productName: '', productCategory: '', productDescription: '', tags: [], image: '', productPrice: '' });
                 } else {
                     showToast(addProductQuery.data.statusmessage);
                     this.setState({ addProductQueryStatus: false });

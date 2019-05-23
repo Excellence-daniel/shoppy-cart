@@ -104,8 +104,6 @@ app.post("/addProduct", parser.single('file'), async (request, response) => {
   catch (e) {
     response.status(228).send({ statusmessage: e.message });
   }
-  console.log(request.body);
-  console.log(request.file)
 })
 
 app.post("/signup", async (request, response) => {
