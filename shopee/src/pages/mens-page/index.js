@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Products } from '../../products';
 import { Link } from 'react-router-dom';
-import './index.css';
+import '../index.css';
 import { determineDiscount, FormatMoney, server_database_url, showToast } from '../../config';
 import axios from 'axios';
 

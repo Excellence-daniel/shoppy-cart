@@ -6,7 +6,7 @@ import { determineDiscount, FormatMoney, server_database_url, showToast } from '
 import axios from 'axios';
 
 
-export default class WomensCollection extends Component {
+export default class FootWearCollection extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ export default class WomensCollection extends Component {
     }
     componentDidMount = async () => {
         try {
-            const url = `${server_database_url}/womensProducts`;
+            const url = `${server_database_url}/footWearProducts`;
             const body = {}
             const getProducts = await axios.post(url, body);
             const products = getProducts.data.products;
@@ -61,7 +61,7 @@ export default class WomensCollection extends Component {
                             :
                             <div style={{ padding: '7rem' }}>
                                 <center>
-                                    <img src="./img/womens__no__product__image.png" style={{ opacity: '0.2', width: '7rem' }} />
+                                    <img src="./img/footswear__no__product__image.jpg" style={{ opacity: '0.2', width: '10rem' }} />
                                     <p className="no__products__message" style={{ marginTop: '1rem' }}> There are no products in this collection. </p>
                                 </center>
 
