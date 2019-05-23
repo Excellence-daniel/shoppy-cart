@@ -32,3 +32,9 @@
   color: #000000c7;
   font-size: 0.9rem;
 }
+
+.no__products__message {
+  color: grey;
+  font-size: 1rem;
+  margin-top: -0.7rem;
+}

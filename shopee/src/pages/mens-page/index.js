@@ -2,39 +2,73 @@ import React, { Component } from 'react';
 import { Products } from '../../products';
 import { Link } from 'react-router-dom';
 import './index.css';
-import { determineDiscount, FormatMoney } from '../../config';
+import { determineDiscount, FormatMoney, server_database_url, showToast } from '../../config';
+import axios from 'axios';
 
 export default class MenCollection extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            products: []
+        }
+    }
+    componentDidMount = async () => {
+        try {
+            const url = `${server_database_url}/mensProducts`;
+            const body = {}
+            const getProducts = await axios.post(url, body);
+            const products = getProducts.data.products;
+            this.setState({ products });
+        }
+        catch (e) {
+            console.log(e.message);
+            return;
+        }
+
+    }
     render() {
+        const { products } = this.state;
         return (
-            <div className="row" style={{ marginTop: '1%' }}>
-                <div className="col-2 card card-body"></div>
-                <div className="col-10">
-                    <div className="row">
-                        {Products.map(product => (
-                            <div className="col-md-2 col-6">
-                                <Link to="">
-                                    <div>
-                                        <div class="uk-animation-toggle" tabindex="0">
-                                            <div class="uk-card uk-card-default uk-card-body uk-animation-slide-top-small" id="product__box">
-                                                <div style={{ textAlign: 'center' }}>
-                                                    <img src={`/img/products/${product.img}`} className="img-fluid" id="product__image" />
+            <div style={{ marginTop: '1%' }}>
+                <div className="col-12">
+                    {
+                        products.length > 0
+                            ?
+                            <div className="row">
+                                {products.map(product => (
+                                    <div className="col-md-2 col-6">
+                                        <Link to="">
+                                            <div>
+                                                <div class="uk-animation-toggle" tabindex="0">
+                                                    <div class="uk-card uk-card-default uk-card-body uk-animation-slide-top-small" id="product__box">
+                                                        <div style={{ textAlign: 'center' }}>
+                                                            <img src={product.imageURL} className="img-fluid" id="product__image" />
+                                                        </div>
+                                                        <div className="product__name">{product.productName}</div>
+                                                        <span class="slashed__price">
+                                                            <strike >{FormatMoney.format(product.productPrice)}</strike>
+                                                        </span>
+                                                        <span className="product__price"> {FormatMoney.format(determineDiscount(product.productPrice).toFixed(2))}</span>
+                                                        <button className="cart__button">Add to Cart </button>
+                                                    </div>
                                                 </div>
-                                                <div className="product__name">{product.name}</div>
-                                                <span class="slashed__price">
-                                                    <strike >{FormatMoney.format(product.price)}</strike>
-                                                </span>
-                                                <span className="product__price"> {FormatMoney.format(determineDiscount(product.price).toFixed(2))}</span>
-                                                <button className="cart__button">Add to Cart </button>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
-                                </Link>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                            :
+                            <div style={{ padding: '7rem' }}>
+                                <center>
+                                    <img src="./img/mens__no__product__image.png" style={{ opacity: '0.2', width: '12rem' }} />
+                                    <p className="no__products__message"> There are no products in this collection. </p>
+                                </center>
+
+                            </div>
+                    }
                 </div>
-            </div>
+                <div id="toast"></div>
+            </div >
         )
     }
 }

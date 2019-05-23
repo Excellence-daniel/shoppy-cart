@@ -32,7 +32,8 @@ cloudinary.config({
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
   // folder: 'images',
-  allowedFormats: ["jpg", "png"]
+  allowedFormats: ["jpg", "png"],
+  transformation: [{ width: 1440, height: 1560, crop: "crop" }]
 });
 
 const parser = multer({ storage: storage });
@@ -169,6 +170,18 @@ app.post("/login", async (request, response) => {
       statusmessage: 'Invalid Email.'
     })
   }
+})
+
+app.post("/mensProducts", async (request, response) => {
+  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+    if (err) throw err;
+    const myDB = db.db("shop");
+    console.log('Im here');
+    myDB.collection("products").find({ "productCategory": { "$in": ["Men", "Unisex"] } }).toArray((err, result) => {
+      if (err) throw err;
+      response.status(200).send({ products: result });
+    })
+  })
 })
 
 module.exports = app;
