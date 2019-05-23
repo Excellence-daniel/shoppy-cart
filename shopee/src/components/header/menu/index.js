@@ -9,7 +9,7 @@ export default class Menu extends Component {
             <div>
                 <ul>
                     <li>
-                        <Link to="/men-collection">
+                        <Link to="/men">
                             <span> Men </span>
                         </Link>
                     </li>

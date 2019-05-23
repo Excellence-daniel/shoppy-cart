@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from './components/header'
-import MenCollection from './pages/men-collection';
+import MenCollection from './pages/mens-page';
 import LandingPage from './pages/landing-page';
 
 import AdminLogin from './pages/admin/login';
@@ -29,7 +29,7 @@ export default function Routerr() {
             <div className="container-fluid">
                 <Header />
                 <Route exact path="/" component={LandingPage} />
-                <Route exact path='/men-collection' component={MenCollection} />
+                <Route exact path='/men' component={MenCollection} />
                 <Route path="/admin" component={MemberRoutes} />
                 <Route path='/login' component={AdminLogin} />
                 <Route path='/signup' component={AdminSignUp} />
