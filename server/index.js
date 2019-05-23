@@ -11,7 +11,7 @@ const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
 const config = require('../shopee/src/config');
 const validator = require('email-validator');
-const upload = multer({ dest: 'images/' })
+// const upload = multer({ dest: 'images/' })
 const formidable = require('formidable'), http = require('http'), util = require('util');
 const MongoClient = require("mongodb").MongoClient;
 app.use(
@@ -22,31 +22,24 @@ app.use(
 app.use(express.json());
 app.use(cors());
 
-// cloudinary.config({
-//   cloud_name: config.cloudinaryCLOUDNAME,
-//   api_key: config.cloudinaryAPIKEY,
-//   api_secret: config.cloudinaryAPISECRET
-// });
 
-// const storage = cloudinaryStorage({
-//   cloudinary: cloudinary,
-//   folder: 'images',
-//   allowedFormats: ["jpg", "png"]
-// });
+cloudinary.config({
+  cloud_name: config.cloudinaryCLOUDNAME,
+  api_key: config.cloudinaryAPIKEY,
+  api_secret: config.cloudinaryAPISECRET
+});
 
-// const parser = multer({ storage: storage });
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  // folder: 'images',
+  allowedFormats: ["jpg", "png"]
+});
+
+const parser = multer({ storage: storage });
 
 app.listen(port, () => {
   console.log("Server Started!");
 });
-
-http.createServer((req, res) => {
-  if (req.url == '/pickpicture' && req.method.toLowerCase() == 'post') {
-    console.log('Work here')
-    var form = new formidable.IncomingForm();
-    console.log(form, 'form')
-  }
-})
 
 const isEmailInMongo = (email) => {
   return new Promise((resolve, reject) => {
@@ -84,9 +77,60 @@ const signAdminUp = (email, password) => {
   }
 }
 
-app.post("/addProduct", upload.single('image'), async (request, response) => {
+app.post("/addProduct", parser.single('file'), async (request, response) => {
+  console.log(request.body);
+  console.log(request.file);
+  const { tags } = request.body;
+  console.log('Tags', tags);
+  // cloudinary.uploader.upload(request.file.path, ())
+
+  // if (file.url) {
+
+  // } else {
+  //   response.status(228).send({ statusmessage: "error" })
+  // }
+  // throw "Invalid type";
+  // const file = request.file;
+  // const data = request.body;
+  // if (!typeof (file)) throw "Invalid Type";
+  // console.log(typeof (2))
+  // console.log(typeof (file))
+  // console.log(file, 'file type');
+
+  // if (typeof (file)) {
+  //   console.log(file);
+  // } else {
+  //   console.log('Error')
+  //   response.status(228).send({ statusmessage: "Invalid Image Format." });
+
+  // }
+  // if (file.url) {
+  //   console.log(file.url)
+  //   console.log(file);
+
+  //   const imageURL = file.url;
+  //   const imageName = file.originalname;
+  // } else {
+  //   // console.log(file)
+  //   // response.status(228).send({ statusmessage: "Invalid Image Format." });
+  // }
+  // try {
+
+  //   console.log(request.file);
+  //   const { originalname, url } = request.file;
+  //   console.log('Image Name: ', originalname);
+  //   console.log('Image URL: ', url);
+  // }
+  // catch (e) {
+  //   // console.log(e);
+  //   console.log("Error!");
+  // }
   console.log(request.file)
-  console.log(request.files)
+
+  // cloudinary.uploader.upload(request.file.originalname, (error, result) => {
+  //   if (error) { console.log(error); throw error };
+  //   console.log(result)
+  // })
 })
 
 // app.post("/addProduct", parser.single('image'), async (request, response) => {

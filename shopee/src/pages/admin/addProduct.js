@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import './index.css';
-import { server_database_url } from '../../config';
+import { server_database_url, showToast, loader } from '../../config';
 
 
 export default class AddProducts extends Component {
@@ -21,7 +21,8 @@ export default class AddProducts extends Component {
             productPrice: '',
             tags: [],
             productDescription: '',
-            image: ''
+            image: '',
+            addProductQueryStatus: false
         }
     }
 
@@ -30,23 +31,19 @@ export default class AddProducts extends Component {
     };
 
     handleProductCategorySelect = (e) => {
-        this.setState({ productCategory: e.target.value })
+        this.setState({ productCategory: e.target.value });
     }
 
     handleSelectProductBrand = (e) => {
-        this.setState({ productBrand: e.target.value })
+        this.setState({ productBrand: e.target.value });
     }
 
     handleImage = e => {
-        // const imageSplit = e.target.value.split(/[\\\/]/);
-        // const imagePath = imageSplit[2];
-        // this.setState({ image: imagePath });
-        console.log(e.target.value);
-        this.setState({ image: e.target.value })
+        this.setState({ image: e.target.files[0] });
     }
 
     handleProductPrice = (e) => {
-        this.setState({ productPrice: e.target.value })
+        this.setState({ productPrice: e.target.value });
     }
 
     handleTagDelete = data => () => {
@@ -63,15 +60,16 @@ export default class AddProducts extends Component {
         const tag = e.target.value;
         if (tags.indexOf(tag) < 0) {
             tags.push(tag);
-            this.setState({ tags: tags })
+            this.setState({ tags: tags });
         }
     }
 
     handleProductDescription = (e) => {
-        this.setState({ productDescription: e.target.value.trim() })
+        this.setState({ productDescription: e.target.value.trim() });
     }
 
-    addProduct = async () => {
+    addProduct = async (e) => {
+        this.setState({ addProductQueryStatus: true });
         const { productBrand, productName, productCategory, productPrice, productDescription, tags, image } = this.state;
         if (productDescription !== '' &&
             productBrand !== '' &&
@@ -81,26 +79,46 @@ export default class AddProducts extends Component {
             image !== '' &&
             productPrice !== ''
         ) {
-            const res = await axios.post(`${server_database_url}/addProduct`,
-                {
-                    productBrand,
-                    productCategory,
-                    productDescription,
-                    productName,
-                    productPrice,
-                    tags,
-                    image
-                });
+            const data = new FormData();
+            data.append('productBrand', productBrand);
+            data.append('productCategory', productCategory);
+            data.append('productDescription', productDescription);
+            data.append('productName', productName);
+            data.append('productPrice', productPrice);
+            data.append('tags', tags);
+            data.append('file', this.state.image, this.state.image.name);
+
+            try {
+                const addProductQuery = await axios.post(`${server_database_url}/addProduct`, data);
+                console.log(addProductQuery, 'result');
+                if (addProductQuery.status === 200) {
+                    showToast(addProductQuery.data.statusmessage);
+                    this.setState({ addProductQueryStatus: false });
+                } else {
+                    showToast(addProductQuery.data.statusmessage);
+                    this.setState({ addProductQueryStatus: false });
+                }
+            }
+            catch (e) {
+                this.setState({ addProductQueryStatus: false });
+                console.log(e);
+                showToast(e.message);
+                return;
+            }
         } else {
-            alert('Fill in all fields');
+            showToast("Fill all fields!");
+            this.setState({ addProductQueryStatus: false });
         }
     }
+
     render() {
+        const { addProductQueryStatus } = this.state;
         if (sessionStorage.getItem('email')) {
             return (
                 <div className="row">
                     <div className="col-1"></div>
                     <div className="col-10">
+                        {/* <form onSubmit={this.addProduct} method="post" enctype="multipart/form-data" > */}
                         <div className="row" style={{ marginTop: '5%' }}>
                             <p className="col-6" id="productName ">
                                 <TextInput label={"Product Name"} icon={'fas fa-search'} function={this.handleProductName} />
@@ -145,7 +163,7 @@ export default class AddProducts extends Component {
                                     <button className="btn btn-outline-secondary" id="tags" value="Men" onClick={this.handleAddTag}> Men </button>
                                     <button className="btn btn-outline-secondary" id="tags" value="Sneakers" onClick={this.handleAddTag}> Sneakers </button>
                                     <button className="btn btn-outline-secondary" id="tags" value="Loafers" onClick={this.handleAddTag}> Loafers </button>
-                                    <button className="btn btn-outline-secondary " id="tags" value="Brogues" onClick={this.handleAddTag}>Brogues </button>
+                                    <button className="btn btn-outline-secondary" id="tags" value="Brogues" onClick={this.handleAddTag}>Brogues </button>
                                     <button className="btn btn-outline-secondary" id="tags" value="Black" onClick={this.handleAddTag}> Black </button>
                                     <button className="btn btn-outline-secondary" id="tags" value="White" onClick={this.handleAddTag}> White </button>
                                     <button className="btn btn-outline-secondary" id="tags" value="Red" onClick={this.handleAddTag}> Red </button>
@@ -160,9 +178,10 @@ export default class AddProducts extends Component {
                             <p className="col-6" id="productImage">
                                 <label> Product Image </label>
                                 <p>
-                                    <form enctype="multipart/form-data" action="/pickpicture" method="post">
-                                        <input type="file" onChange={this.handleImage} name='image' />
-                                    </form>
+                                    <div>
+                                        <input type="file" onChange={this.handleImage} name='image' /> <br />
+                                        <span style={{ fontSize: "0.7rem", color: "rgba(27, 121, 82, 0.61)" }}>(*accepts only PNG and JPG*)</span>
+                                    </div>
                                 </p>
                             </p>
 
@@ -180,15 +199,16 @@ export default class AddProducts extends Component {
                             </p>
 
                             <p className="col-12">
-                                <Button variant="contained" className="btn-block" onClick={this.addProduct} color="primary">
-                                    Add Product
-                        </Button>
+                                <button type="submit" onClick={this.addProduct} className="btn btn-block btn-primary" id="addProduct__button"> {addProductQueryStatus ? <img src={loader} width={20} /> : "Add Product"}</button>
                             </p>
 
                         </div>
                     </div>
+
                     <div className="col-1"></div>
+                    <div id="toast"></div>
                 </div >
+
             )
         } else {
             return <Redirect to="/login" />

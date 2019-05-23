@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { showToast } from '../../config';
 
 export default class DeleteProducts extends Component {
 
@@ -18,15 +19,17 @@ export default class DeleteProducts extends Component {
             product: []
         }
     }
-    searchProduct = async () => {
-
+    searchProduct = () => {
+        console.log('Hey');
+        showToast('Aderrefdsdz');
     }
 
     deleteProduct = async () => {
-        const confirmDelete = window.confirm('You are about to delete this product?');
-        if (confirmDelete) {
+        showToast('Hey');
+        // const confirmDelete = window.confirm('You are about to delete this product?');
+        // if (confirmDelete) {
 
-        }
+        // }
     }
     render() {
         if (sessionStorage.getItem('email')) {
@@ -37,7 +40,7 @@ export default class DeleteProducts extends Component {
                         <div style={{ marginTop: '5%' }}>
                             <p><TextInput label={"Search With Product Name"} icon={'fas fa-search'} function={this.searchProduct} /></p>
                             <p>
-                                <Button variant="contained" color="primary">
+                                <Button variant="contained" onClick={this.deleteProduct} color="primary">
                                     Search Product
                         </Button>
                             </p>
@@ -70,9 +73,11 @@ export default class DeleteProducts extends Component {
                                                 </TableBody>
                                             </Table>
                                         </Paper>
+
+                                        0467717867
                                     </p>
                                     <p className="col-12">
-                                        <Button variant="contained" onClick={this.deleteProduct} color="secondary">
+                                        <Button variant="contained" onClick={this.searchProduct} color="secondary">
                                             Delete Product
                                     </Button>
                                     </p>
@@ -83,6 +88,7 @@ export default class DeleteProducts extends Component {
                         </div>
                     </div>
                     <div className="col-1"></div>
+                    <div id="toast"></div>
                 </div>
             )
         } else {
