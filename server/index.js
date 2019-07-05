@@ -16,6 +16,7 @@ const formidable = require("formidable"),
   http = require("http"),
   util = require("util");
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 app.use(
   express.urlencoded({
     extended: true
@@ -42,6 +43,35 @@ const parser = multer({ storage: storage });
 app.listen(port, () => {
   console.log("Server Started!");
 });
+
+const calculateDiscount = (discount, price) => {
+  const getDiscount = (discount / 100) * price;
+  const discountedPrice = price - getDiscount + 10;
+  return discountedPrice;
+};
+const determineDiscount = price => {
+  let discount = 0;
+  let discountPrice = 0;
+  if (price >= 0) {
+    discount = 5;
+    discountPrice = calculateDiscount(discount, price);
+    return discountPrice;
+  } else if (price >= 5000) {
+    discount = 10;
+    discountPrice = calculateDiscount(discount, price);
+    return discountPrice;
+  } else if (price >= 15000) {
+    discount = 12;
+    discountPrice = calculateDiscount(discount, price);
+    return discountPrice;
+  } else if (price >= 20000 && price <= 25000) {
+    discount = 15;
+    discountPrice = calculateDiscount(discount, price);
+    return discountPrice;
+  } else {
+    return 0;
+  }
+};
 
 const isEmailInMongo = email => {
   return new Promise((resolve, reject) => {
@@ -77,6 +107,29 @@ const signAdminUp = (email, password) => {
   }
 };
 
+const getProduct = id => {
+  return new Promise((resolve, reject) => {
+    const productToFind = { _id: new ObjectId(id) };
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+        if (err) throw err;
+        const myDB = db.db("shop");
+        myDB
+          .collection("products")
+          .find(productToFind)
+          .toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result, "results");
+            resolve(result);
+          });
+      });
+    } catch (e) {
+      reject(e);
+      console.log(e);
+    }
+  });
+};
+
 app.post("/addProduct", parser.single("file"), async (request, response) => {
   try {
     const {
@@ -92,6 +145,7 @@ app.post("/addProduct", parser.single("file"), async (request, response) => {
       productName: productName,
       productBrand: productBrand,
       productPrice: productPrice,
+      slashedPrice: determineDiscount(productPrice),
       productCategory: productCategory,
       tags: tags,
       productDescription: productDescription,
@@ -222,31 +276,9 @@ app.post("/footWearProducts", async (request, response) => {
 app.post("/getAProduct", async (request, response) => {
   const { id } = request.body;
   console.log("productId", id);
-  // const productToFind = { _id: id };
-  const productToFind = { _id: `ObjectId(${id})` };
-  MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
-    if (err) throw err;
-    const myDB = db.db("shop");
-    // myDB.collection("products").findOfine(productToFind, (err, res) => {
-    //   if (err) throw err;
-    //   console.log(res, "results");
-    // });
-    myDB
-      .collection("products")
-      .find(productToFind)
-      .toArray(function(err, result) {
-        if (err) throw err;
-        console.log(result, "results");
-      });
-  });
+  const products = await getProduct(id);
+  response.status(200).send({ product: products });
 });
 
-// dbo
-//   .collection("customers")
-//   .find(query)
-//   .toArray(function(err, result) {
-//     if (err) throw err;
-//     console.log(result);
-//     db.close();
-//   });
+// app.post("addToCart", async);
 module.exports = app;
