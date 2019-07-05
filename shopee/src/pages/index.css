@@ -38,3 +38,20 @@
   font-size: 1rem;
   margin-top: -0.7rem;
 }
+
+.series__board {
+  background: #ffffff63;
+  box-shadow: #9c9c9c26 0px 0px 4px 4px;
+  margin-top: 1rem;
+  padding: 2rem;
+  /* text-align: center; */
+}
+
+.condition {
+  margin-left: 1rem;
+}
+
+.__text__ {
+  font-weight: 800;
+  padding-left: 1rem;
+}

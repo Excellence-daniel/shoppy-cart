@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TextInput from './textField';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 export default class UpdateProducts extends Component {
