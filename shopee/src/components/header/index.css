@@ -50,3 +50,6 @@ li {
 h5 {
   margin: 0;
 }
+a:hover {
+  text-decoration: none;
+}

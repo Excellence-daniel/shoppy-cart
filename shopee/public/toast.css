@@ -70,3 +70,15 @@
 a:hover {
   text-decoration: none !important;
 }
+
+.cartBtn {
+  width: 14rem;
+  height: 4rem;
+  color: white;
+  background: red;
+  border: 9rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 0.3rem;
+}

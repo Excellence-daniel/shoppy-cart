@@ -130,6 +130,52 @@ const getProduct = id => {
   });
 };
 
+const getCartItems = id => {
+  return new Promise((resolve, reject) => {
+    const cartId = { _id: new ObjectId(id) };
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+        if (err) throw err;
+        const myDB = db.db("shop");
+        myDB
+          .collection("cart")
+          .find(cartId)
+          .toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result, "results");
+            resolve(result);
+          });
+      });
+    } catch (e) {
+      reject(e);
+      console.log(e);
+    }
+  });
+};
+
+const updateCartItems = items => {
+  return new Promise((resolve, reject) => {
+    const cartId = { _id: new ObjectId(id) };
+    try {
+      MongoClient.connect(mongoURL, { useNewUrlParser: true }, (err, db) => {
+        if (err) throw err;
+        const myDB = db.db("shop");
+        myDB
+          .collection("cart")
+          .find(cartId)
+          .toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result, "results");
+            resolve(result);
+          });
+      });
+    } catch (e) {
+      reject(e);
+      console.log(e);
+    }
+  });
+};
+
 app.post("/addProduct", parser.single("file"), async (request, response) => {
   try {
     const {
@@ -280,5 +326,14 @@ app.post("/getAProduct", async (request, response) => {
   response.status(200).send({ product: products });
 });
 
-// app.post("addToCart", async);
+app.post("addToCart", async (request, response) => {
+  const { id, product } = request.body;
+  const cart = await getCartItems(id);
+  if (cart) {
+    const Items = cart.cartItems;
+    Items.push(product);
+    // updateCartItems();
+  } else {
+  }
+});
 module.exports = app;

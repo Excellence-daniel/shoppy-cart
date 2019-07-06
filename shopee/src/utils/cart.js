@@ -10,7 +10,7 @@ export const getProduct = async id => {
     const url = `${server_database_url}/getAProduct`;
     const body = { id };
     const products = await axios.post(url, body);
-    console.log("productsResults", products);
+    return products;
   } catch (e) {
     console.log(e);
   }

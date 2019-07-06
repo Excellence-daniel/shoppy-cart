@@ -1,0 +1,34 @@
+.spinBox {
+  display: flex;
+  // background: red;
+  max-width: 13.5rem;
+  padding: 0.8rem;
+  // margin-top: 2rem;
+  margin-left: 3rem;
+  position: absolute;
+  display: flex;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+  // padding: 2px;
+  justify-content: space-between;
+  border-radius: 8px;
+  width: 100%;
+  z-index: 4;
+  // top: -10px;
+
+  .minus-sign {
+    margin-right: 3.5rem;
+  }
+  .plus-sign {
+    margin-left: 3.5rem;
+  }
+
+  .signBtn {
+    background: transparent;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+}
